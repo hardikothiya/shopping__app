@@ -11,7 +11,7 @@ import 'package:shopping_app/screens/product_tile.dart';
 class HomePage extends StatelessWidget {
   final ProductController productController = Get.put(ProductController());
   final CartController cartController = Get.put(CartController());
-
+  final ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +78,7 @@ class HomePage extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               } else {
                 return GridView.builder(
+                  controller: scrollController,
                   itemCount: productController.productList.length,
                   itemBuilder: (context, index) {
                     return ProductTile(productController.productList[index]);
@@ -92,6 +93,13 @@ class HomePage extends StatelessWidget {
             }),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          scrollController.animateTo(0,
+              duration: Duration(seconds: 2), curve: Curves.easeInOut);
+        },
+        child: const Icon(Icons.arrow_upward),
       ),
     );
   }
